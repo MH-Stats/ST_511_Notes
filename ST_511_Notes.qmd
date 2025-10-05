@@ -10,4 +10,445 @@ editor: visual
 
 ### Syntax for Git
 
+Replace file path with an empty folder path one on your end and change
+the url to the one you want to copy:
 
+-   `git clone https://github.com/MH-Stats/Math_Notes.git "C:\Users\mheinen\Documents\Repos\SSH\_Test"`
+
+How to pull files from GitHub repo:
+
+-   `git pull origin main`
+
+How to commit and upload changes using gitbash:
+
+-   change lib in gitbash `cd C:/Users/mheinen/Documents/Repos/SSH_Test`
+
+Check untracked files:
+
+-   `git status`
+
+Stage specific file:
+
+-   `git add filename`
+
+Stage all files:
+
+-   `git add .`
+
+Commit changes: - `git commit -m "Add your message here"`
+
+Push changes to the repo (change main to branch if using a different
+one): - `git push origin main`
+
+# Week 4
+
+## Random Variable
+
+Random variables (RV) are ways to map random or stochastic process to
+numbers, which is a mathematical object defined as a family of random
+variables in a probability space, with the most common index fro the
+family being time. They are the building blocks of probability
+distributions, and a probability distribution describes the set of all
+possible values a RV can take and the probability of each value
+occurring.
+
+-   Can be discrete or continuous
+
+-   Normally represented by uppercase letters like $X$
+
+-   Useful when you know the exact population distribution, as you can
+    use it to calculate probabilities, as an example you know the
+    probability of rolling a 1 through 6 on a dice.
+
+## Probability and Sampling Distribution
+
+The probability distribution of a population directly influences the
+sampling distribution of a statistic drawn from that population. A
+sampling distribution is essentially the probability distribution of a
+statistic from all possible samples of a given size.
+
+The spread of the sampling distribution is,
+
+$$\frac{\sigma}{\sqrt{n}}$$
+
+Since we normally only get a single sample, we assume that,
+
+$$\bar{x} \approx N(\mu,\frac{\sigma}{\sqrt{n}})$$
+
+-   We estimate $\mu$ with $\bar{x}$ and $\sigma$ with $s$
+
+### Normality
+
+If the probability distribution is normal, the sampling distribution
+will also be normal.
+
+### The Central Limit Theorem
+
+For large independent samples (n\>30), regardless of of what the
+population distribution looks like, the sampling distribution of the
+sample mean will be normally distributed with mean $\mu$ and standard
+error of $\frac{\sigma}{\sqrt{n}}$
+
+Z and t-test assume the sampling distribution is normally distributed.
+This is also why:
+
+-   $\bar{x}$ is unbiased estimator for $\mu$
+
+### Notation
+
+To write the mean and standard deviation in a distribution you can write
+it as,
+
+$$X \sim N(\mu, \sigma)$$
+
+When writing out the probability you can write it as,
+
+$$P(X>x) \qquad \text{where } X \text{ is the random variable, } x \text{ is the value, and > is greater than (can be >, <, =, etc.)}$$
+
+W
+
+## Finding Average Word Count in R
+
+```{r}
+library(stringr) #Used for str_split
+
+#Creating a character vector from the address 
+address <- "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.
+
+Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.
+
+But, in a larger sense, we can not dedicate -- we can not consecrate -- we can not hallow -- this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us -- that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion -- that we here highly resolve that these dead shall not have died in vain -- that this nation, under God, shall have a new birth of freedom -- and that government of the people, by the people, for the people, shall not perish from the earth."
+
+address_count <- str_split(address, "\\W+") #Splits up the text by " " and removes white space and other non-letter chars from address
+
+address_clean <- address_count[[1]][-273] #Removes last element which was null aka ""
+
+address_clean[1:20] #Using indexing to show a snippet of what the character vector now looks like
+```
+
+```{r}
+avg_length <- mean(nchar(address_clean)) #nchar is a built in R function to tell you character length
+
+#Paste allows you to put multiple inputs into a function like print()
+print(paste("The average word length in the Gettysburg Address is", avg_length))
+```
+
+```{r}
+set.seed(24) #Setting seed
+
+address_sample <- sample(address_clean, 10) #Sampling 10 words from the cleaned address vector
+
+avg_sample_length <- mean(nchar(address_sample))
+
+print(paste("The average word length in the sample of the Gettysburg Address is", avg_sample_length))
+```
+
+# Week 5 to 6
+
+## Hypothesis Testing
+
+### Assumptions
+
+Must check that the data has two thing:
+
+-   Independence
+
+-   Normality
+
+    -   Data must be "normal" meaning the sample size n must satisfy two
+        conditions:
+        -   $n * \pi_0\geq10$
+        -   $n * (1-\pi_0)\geq10$
+
+### Z-distribution
+
+Z-score is a ratio of how the sample proportion differs from the
+hypothesized proportion ($p_0$) as compared to the expected variability
+of the $\hat{p}$ (sample proportion) values.
+
+$$Z = \frac{\hat{p}-p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}$$
+
+-   The standard error, which is the the standard deviation of the
+    sampling distribution comes from the above formula,
+
+$$SE=\sqrt{\frac{p_0(1-p_0)}{n}}$$
+
+When the null hypothesis is true and the conditions are met, Z has a
+standard normal distribution.
+
+### Notation
+
+When writing null and alternative hypothesis follow the following syntax
+based on if your data is quantitative or categorical:
+
+Quantitative
+
+-   Your hypothesis are about a population mean
+
+-   Use $\mu$, as an example say your testing that the average height of
+    a population is 64 inches, but you believe the true average height
+    is greater than 64
+
+$$
+\begin{align*}
+H_0 &: \mu = 64 \\
+H_a &: \mu > 64
+\end{align*}
+$$
+
+Categorical
+
+-   Use $\pi$ when your dealing with categorical data, as you are
+    testing the hypothesis about a population proportion. As an example
+    say you want to test if 25% of people prefer sleeping with their
+    socks on.
+
+$$
+\begin{align*}
+H_0 &: \pi = .25 \\
+H_a &: \pi \ne .25
+\end{align*}
+$$
+
+## Confidence Intervals
+
+The goal of a confidence interval is to create a sampling distribution
+around our statistic, and use the standard error (sampling variability)
+to provide a range of values to estimate our population parameter.
+
+A confidence interval is a derived from the successes and failures of
+our random sample, while hypothesis testing is the successes and
+failures under the assumption of the null hypothesis.
+
+### Notation
+
+Formula:
+
+$$\hat{p}\pm MOE$$
+
+Margin of Error (MOE):
+
+$$z^* * \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+-   The square root in the formula is equal to $SE(\hat{p})$
+
+### Example
+
+We want to estimate the number of NC State students that eat ice cream.
+Let’s assume that 100 NC State students were randomly sampled, and it
+turned out that $\hat{p}=0.37$. This is our best guess for π, which
+nobody thinks is actually correct.
+
+We need to check for a couple things and note our variables of interest:
+
+-   Independence
+
+-   $\hat{p}=0.37$
+
+-   $n=100$
+
+-   Success/Failure:
+
+$$SE(\hat{p})=\sqrt{\frac{0.37(1-0.37)}{100}}=0.0482$$
+
+Now we can calculate a 95% confidence interval:
+
+$$0.37 \pm 1.96 * 0.0428=(0.286, 0.454)$$
+
+Two ways to state in words:
+
+1.  We are 95% confident $\pi$ is within (0.286, 0.454).
+
+2.  We are 95% confident that the true proportion of NC State students
+    who eat Howling Cow ice cream at dinner is between 0.286 and 0.454.
+
+## Difference In Proportions Test
+
+Also know as a two-proportion z-test. It is a z-test used to determine
+whether the difference between the proportions of two groups, coming
+from a binomial distribution is statistical significant.
+
+### Example
+
+A pharmaceutical company is conducting a clinical trial to test the
+effectiveness of a new drug for a common illness. They randomly assign
+participants to one of two groups
+
+Group 1 (New Drug): Out of 200 patients, 160 recovered from the illness.
+
+Group 2 (Placebo): Out of 180 patients, 126 recovered from the illness.
+
+Perform a hypothesis test to determine if the proportion of patients who
+recovered is significantly different for the group that received the new
+drug
+
+#### Notation
+
+$H_o:\pi_n-\pi_p=0$
+
+$H_a:\pi_n-\pi_p>0$
+
+$\hat{p}_n - \hat{p}_p=.1$
+
+#### Assumptions
+
+-   Independence (observation level, not variables)
+
+-   Success-failure (sample size)
+
+![](Images\pool.png)
+
+-   You need to check both $p_1$ & $p_2$ by using the pooled proportion
+    multiplied by the sample size n for each sample.
+    -   is $p_{pool} * n_1>10$
+    -   is $(1-p_{pool})*n_1>10$
+    -   is $p_{pool}*n_2>10$
+    -   is $(1-p_{pool})*n_2>10$
+
+#### Z-test
+
+![](Images\zpool.png)
+
+$$
+Z=\frac{.1-0}{\sqrt{.744*.226(\frac{1}{200}+\frac{1}{180})}}=2.327
+$$
+
+#### Conclusion
+
+Because or p-value is \< α, we reject the null hypothesis, and have
+strong evidence to conclude that the true proportion of patients who
+recovered from the illness taking the new drug is larger than those who
+took the placebo.
+
+### Confidence Interval
+
+#### Assumptions
+
+-   Independence
+
+-   Success-failure
+
+    -   $\hat{p}_n*n_1>10$
+        -   $.8*200>10$
+    -   $(1-\hat{p}_n)*n_1>10$ -$.2*200>10$
+        -   $.2*200>10$
+    -   $\hat{p}_p*n_2>10$
+        -   $.7*180>10$
+    -   $(1-\hat{p}_p)*n_2>10$
+        -   $.3*180>10$
+
+#### CI
+
+![](Images\CI_prop.png)
+
+$$
+\sqrt{\frac{.8*.2}{200}+\frac{.7*.3}{180}}=0.00443
+$$
+
+![](Images\lab_plot.png)
+
+-   $.1+.00433*1.96=0.109$
+-   $.1-.00443*1.96=0.091$
+
+We are 95% confident that the true proportion of patients who took the
+new drug and recovered is 0.091 to 0.109 HIGHER than the true proportion
+of patients who took the placebo and recovered.
+
+### Realtionship Between Z-test and CI
+
+When working with a two-tailed test, if you reject the null hypothesis
+at $\alpha=0.05$ level, we would expect our 95% CI to not include the
+null values.
+
+The condition for rejecting the null hypothesis is that the absolute
+Z-statistic is greater than the critical value,
+
+$$
+|Z_{stat}|>Z_{crit}
+$$
+
+Which can be rearranged to show,
+
+$$
+|\hat{p}-p_0|>Z_{crit}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+$$
+
+For **quantitative variables**, the key insight is that when you reject
+the null hypothesis, the distance between your statistic and the null
+value is larger than the margin of error of the confidence interval.
+Since the null value is a certain distance away from your sample
+proportion, and that distance is greater than the width of your
+confidence interval, the null value cannot possibly be inside the
+interval.
+
+# Week 7
+
+## Central Limit Theorem
+
+![](Images\cltmean.png)
+
+![](Images\cltmean_2.png)
+
+## t-Distribution
+
+Similar to normal distribution, but has more uncertainty.
+
+-   There are infinite t-distributions vs. the singular normal
+    distribution
+
+-   t-distribution approach a normal distribution as you increase your
+    degrees of freedom.
+
+-   Used when the population standard deviation is unknown.
+
+-   Used for quantitative data.
+
+### Degrees of Freedom
+
+DF for a t-distribution refer to the number of independent pieces of
+information that available to estimate a parameter. In the context of
+the t-distribution, DF are a parameter that determines the shape of the
+distribution.
+
+-   $DF = n-1$
+
+DF correct for the uncertainty introduced when estimating the population
+standard deviation using the sample deviation when working with a
+quantitative variable.
+
+Since the standard error of the sampling distribution is known for
+hypothesis test with categorical data, derived from $\pi_o$ , we don't
+correct with t, instead we use the standard normal distribution.
+
+### Connecting the dots
+
+If the hypothesis test leads you to reject the null hypothesis, it means
+that the distance between $\bar{x}$ and $u_o$ is greater than the margin
+of error defined by the 95% CI.
+
+![](Images\t_test.png)
+
+### Mathmatical Proof
+
+$$
+|\frac{\bar{x}_1-u_o}{SE}|>t^*
+$$
+
+$$
+|\bar{x}_1-u_o|>t^**SE
+$$
+
+This inequality states that the distance from the center of the interval
+to the null value $μ_o$ is greater than the margin of error. If the
+distance to $μ_o$ is longer than the margin of error around the sample
+mean, the confidence interval must exclude $μ_o$.
+
+These two equations are mathematically equivalent, proving that
+rejecting $H_o$ is the same as the confidence interval excluding the
+null value $u_o$.
+
+-   For a two-side test where $\alpha$ "matches" with our confidence
+    interval you would get something like, $\alpha=0.05$ and a 95% CI.
+
+With categorical data the difference in their numerical values is
+usually too small to break the equivalence.
