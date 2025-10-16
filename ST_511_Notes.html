@@ -199,7 +199,6 @@ window.Quarto = {
 <p><span class="math display">\[X \sim N(\mu, \sigma)\]</span></p>
 <p>When writing out the probability you can write it as,</p>
 <p><span class="math display">\[P(X&gt;x) \qquad \text{where } X \text{ is the random variable, } x \text{ is the value, and &gt; is greater than (can be &gt;, &lt;, =, etc.)}\]</span></p>
-<p>W</p>
 </section>
 </section>
 <section id="finding-average-word-count-in-r" class="level2">
@@ -340,7 +339,7 @@ H_a &amp;: \pi \ne .25
 </section>
 <section id="difference-in-proportions-test" class="level2">
 <h2 class="anchored" data-anchor-id="difference-in-proportions-test">Difference In Proportions Test</h2>
-<p>Also know as a two-proportion z-test. It is a z-test used to determine whether the difference between the proportions of two groups, coming from a binomial distribution is statisticall significant.</p>
+<p>Also know as a two-proportion z-test. It is a z-test used to determine whether the difference between the proportions of two groups, coming from a binomial distribution is statistical significant.</p>
 <section id="example-1" class="level3">
 <h3 class="anchored" data-anchor-id="example-1">Example</h3>
 <p>A pharmaceutical company is conducting a clinical trial to test the effectiveness of a new drug for a common illness. They randomly assign participants to one of two groups</p>
@@ -349,14 +348,184 @@ H_a &amp;: \pi \ne .25
 <p>Perform a hypothesis test to determine if the proportion of patients who recovered is significantly different for the group that received the new drug</p>
 <section id="notation-3" class="level4">
 <h4 class="anchored" data-anchor-id="notation-3">Notation</h4>
+<p><span class="math inline">\(H_o:\pi_n-\pi_p=0\)</span></p>
+<p><span class="math inline">\(H_a:\pi_n-\pi_p&gt;0\)</span></p>
 <p><span class="math inline">\(\hat{p}_n - \hat{p}_p=.1\)</span></p>
 </section>
 <section id="assumptions-1" class="level4">
 <h4 class="anchored" data-anchor-id="assumptions-1">Assumptions</h4>
 <ul>
-<li>Indep</li>
+<li><p>Independence (observation level, not variables)</p></li>
+<li><p>Success-failure (sample size)</p></li>
+</ul>
+<p><img src="Images\pool.png" class="img-fluid"></p>
+<ul>
+<li>You need to check both <span class="math inline">\(p_1\)</span> &amp; <span class="math inline">\(p_2\)</span> by using the pooled proportion multiplied by the sample size n for each sample.
+<ul>
+<li>is <span class="math inline">\(p_{pool} * n_1&gt;10\)</span></li>
+<li>is <span class="math inline">\((1-p_{pool})*n_1&gt;10\)</span></li>
+<li>is <span class="math inline">\(p_{pool}*n_2&gt;10\)</span></li>
+<li>is <span class="math inline">\((1-p_{pool})*n_2&gt;10\)</span></li>
+</ul></li>
 </ul>
 </section>
+<section id="z-test" class="level4">
+<h4 class="anchored" data-anchor-id="z-test">Z-test</h4>
+<p><img src="Images\zpool.png" class="img-fluid"></p>
+<p><span class="math display">\[
+Z=\frac{.1-0}{\sqrt{.744*.226(\frac{1}{200}+\frac{1}{180})}}=2.327
+\]</span></p>
+</section>
+<section id="conclusion" class="level4">
+<h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
+<p>Because or p-value is &lt; α, we reject the null hypothesis, and have strong evidence to conclude that the true proportion of patients who recovered from the illness taking the new drug is larger than those who took the placebo.</p>
+</section>
+</section>
+<section id="confidence-interval" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-interval">Confidence Interval</h3>
+<section id="assumptions-2" class="level4">
+<h4 class="anchored" data-anchor-id="assumptions-2">Assumptions</h4>
+<ul>
+<li><p>Independence</p></li>
+<li><p>Success-failure</p>
+<ul>
+<li><span class="math inline">\(\hat{p}_n*n_1&gt;10\)</span>
+<ul>
+<li><span class="math inline">\(.8*200&gt;10\)</span></li>
+</ul></li>
+<li><span class="math inline">\((1-\hat{p}_n)*n_1&gt;10\)</span>
+<ul>
+<li><span class="math inline">\(.2*200&gt;10\)</span></li>
+</ul></li>
+<li><span class="math inline">\(\hat{p}_p*n_2&gt;10\)</span>
+<ul>
+<li><span class="math inline">\(.7*180&gt;10\)</span></li>
+</ul></li>
+<li><span class="math inline">\((1-\hat{p}_p)*n_2&gt;10\)</span>
+<ul>
+<li><span class="math inline">\(.3*180&gt;10\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="ci" class="level4">
+<h4 class="anchored" data-anchor-id="ci">CI</h4>
+<p><img src="Images\CI_prop.png" class="img-fluid"></p>
+<p><span class="math display">\[
+\sqrt{\frac{.8*.2}{200}+\frac{.7*.3}{180}}=0.00443
+\]</span></p>
+<p><img src="Images\lab_plot.png" class="img-fluid"></p>
+<ul>
+<li><span class="math inline">\(.1+.00433*1.96=0.109\)</span></li>
+<li><span class="math inline">\(.1-.00443*1.96=0.091\)</span></li>
+</ul>
+<p>We are 95% confident that the true proportion of patients who took the new drug and recovered is 0.091 to 0.109 HIGHER than the true proportion of patients who took the placebo and recovered.</p>
+</section>
+</section>
+<section id="relationship-between-z-test-and-ci" class="level3">
+<h3 class="anchored" data-anchor-id="relationship-between-z-test-and-ci">Relationship Between Z-test and CI</h3>
+<p>When working with a two-tailed test, if you reject the null hypothesis at <span class="math inline">\(\alpha=0.05\)</span> level, we would expect our 95% CI to not include the null values.</p>
+<p>The condition for rejecting the null hypothesis is that the absolute Z-statistic is greater than the critical value,</p>
+<p><span class="math display">\[
+|Z_{stat}|&gt;Z_{crit}
+\]</span></p>
+<p>Which can be rearranged to show,</p>
+<p><span class="math display">\[
+|\hat{p}-p_0|&gt;Z_{crit}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+\]</span></p>
+<p>For <strong>quantitative variables</strong>, the key insight is that when you reject the null hypothesis, the distance between your statistic and the null value is larger than the margin of error of the confidence interval. Since the null value is a certain distance away from your sample proportion, and that distance is greater than the width of your confidence interval, the null value cannot possibly be inside the interval.</p>
+</section>
+</section>
+</section>
+<section id="week-7" class="level1">
+<h1>Week 7</h1>
+<section id="central-limit-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="central-limit-theorem">Central Limit Theorem</h2>
+<p><img src="Images\cltmean.png" class="img-fluid"></p>
+<p><img src="Images\cltmean_2.png" class="img-fluid"></p>
+</section>
+<section id="t-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="t-distribution">t-Distribution</h2>
+<p>Similar to normal distribution, but has more uncertainty.</p>
+<ul>
+<li><p>There are infinite t-distributions vs.&nbsp;the singular normal distribution</p></li>
+<li><p>t-distribution approach a normal distribution as you increase your degrees of freedom.</p></li>
+<li><p>Used when the population standard deviation is unknown.</p></li>
+<li><p>Used for quantitative data.</p></li>
+</ul>
+<section id="degrees-of-freedom" class="level3">
+<h3 class="anchored" data-anchor-id="degrees-of-freedom">Degrees of Freedom</h3>
+<p>DF for a t-distribution refer to the number of independent pieces of information that available to estimate a parameter. In the context of the t-distribution, DF are a parameter that determines the shape of the distribution.</p>
+<ul>
+<li><span class="math inline">\(DF = n-1\)</span></li>
+</ul>
+<p>DF correct for the uncertainty introduced when estimating the population standard deviation using the sample deviation when working with a quantitative variable.</p>
+<p>Since the standard error of the sampling distribution is known for hypothesis test with categorical data, derived from <span class="math inline">\(\pi_o\)</span> , we don’t correct with t, instead we use the standard normal distribution.</p>
+</section>
+<section id="connecting-the-dots" class="level3">
+<h3 class="anchored" data-anchor-id="connecting-the-dots">Connecting the dots</h3>
+<p>If the hypothesis test leads you to reject the null hypothesis, it means that the distance between <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(u_o\)</span> is greater than the margin of error defined by the 95% CI.</p>
+<p><img src="Images\t_test.png" class="img-fluid"></p>
+</section>
+<section id="mathematical-proof" class="level3">
+<h3 class="anchored" data-anchor-id="mathematical-proof">Mathematical Proof</h3>
+<p><span class="math display">\[
+|\frac{\bar{x}_1-u_o}{SE}|&gt;t^*
+\]</span></p>
+<p><span class="math display">\[
+|\bar{x}_1-u_o|&gt;t^**SE
+\]</span></p>
+<p>This inequality states that the distance from the center of the interval to the null value <span class="math inline">\(μ_o\)</span> is greater than the margin of error. If the distance to <span class="math inline">\(μ_o\)</span> is longer than the margin of error around the sample mean, the confidence interval must exclude <span class="math inline">\(μ_o\)</span>.</p>
+<p>These two equations are mathematically equivalent, proving that rejecting <span class="math inline">\(H_o\)</span> is the same as the confidence interval excluding the null value <span class="math inline">\(u_o\)</span>.</p>
+<ul>
+<li>For a two-side test where <span class="math inline">\(\alpha\)</span> “matches” with our confidence interval you would get something like, <span class="math inline">\(\alpha=0.05\)</span> and a 95% CI.</li>
+</ul>
+<p>With categorical data the difference in their numerical values is usually too small to break the equivalence.</p>
+</section>
+</section>
+</section>
+<section id="week-7-1" class="level1">
+<h1>Week 7</h1>
+<section id="t-test-math-notation" class="level2">
+<h2 class="anchored" data-anchor-id="t-test-math-notation">T-Test Math Notation</h2>
+<p><img src="Images\ttest_equ.jpg" class="img-fluid"></p>
+<section id="standard-deviation" class="level3">
+<h3 class="anchored" data-anchor-id="standard-deviation">Standard Deviation</h3>
+<p><img src="Images\sd_formula.webp" class="img-fluid"></p>
+</section>
+<section id="between-groups" class="level3">
+<h3 class="anchored" data-anchor-id="between-groups">Between Groups</h3>
+<p><img src="Images\tdiff_test.png" class="img-fluid"></p>
+</section>
+<section id="confidence-interval-1" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-interval-1">Confidence Interval</h3>
+<p>Need to know the margin of error, which you should <span class="math inline">\(\pm\)</span> from your best guess.</p>
+<p><img src="Images\ME_t_test.png" class="img-fluid"></p>
+</section>
+</section>
+</section>
+<section id="week-9" class="level1">
+<h1>Week 9</h1>
+<section id="anova" class="level2">
+<h2 class="anchored" data-anchor-id="anova">ANOVA</h2>
+<p><strong>Hypothesis Notation:</strong></p>
+<p>Example text comes from the plants dataset in R.</p>
+<p><span class="math display">\[
+H_o: \mu_c = \mu_{trt1} = \mu_{trt2}
+\]</span></p>
+<p><strong>In words:</strong></p>
+<ul>
+<li><p><span class="math inline">\(H_o:\)</span> The population mean weight of plants across the three groups are equal.</p></li>
+<li><p><span class="math inline">\(H_a:\)</span> At least one population mean plant weight is different across the three groups.</p></li>
+</ul>
+<p>Note: It is uncommon to write our the alternative hypothesis in notation, but the null is generally written in proper notation.</p>
+<section id="assumptions-3" class="level3">
+<h3 class="anchored" data-anchor-id="assumptions-3">Assumptions</h3>
+<ul>
+<li><p>Independence</p></li>
+<li><p>Normality</p></li>
+<li><p>Equal variance</p></li>
+</ul>
 </section>
 </section>
 </section>

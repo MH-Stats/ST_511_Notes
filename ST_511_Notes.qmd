@@ -105,8 +105,6 @@ When writing out the probability you can write it as,
 
 $$P(X>x) \qquad \text{where } X \text{ is the random variable, } x \text{ is the value, and > is greater than (can be >, <, =, etc.)}$$
 
-W
-
 ## Finding Average Word Count in R
 
 ```{r}
@@ -330,7 +328,7 @@ took the placebo.
 
     -   $\hat{p}_n*n_1>10$
         -   $.8*200>10$
-    -   $(1-\hat{p}_n)*n_1>10$ -$.2*200>10$
+    -   $(1-\hat{p}_n)*n_1>10$
         -   $.2*200>10$
     -   $\hat{p}_p*n_2>10$
         -   $.7*180>10$
@@ -354,7 +352,7 @@ We are 95% confident that the true proportion of patients who took the
 new drug and recovered is 0.091 to 0.109 HIGHER than the true proportion
 of patients who took the placebo and recovered.
 
-### Realtionship Between Z-test and CI
+### Relationship Between Z-test and CI
 
 When working with a two-tailed test, if you reject the null hypothesis
 at $\alpha=0.05$ level, we would expect our 95% CI to not include the
@@ -428,7 +426,7 @@ of error defined by the 95% CI.
 
 ![](Images\t_test.png)
 
-### Mathmatical Proof
+### Mathematical Proof
 
 $$
 |\frac{\bar{x}_1-u_o}{SE}|>t^*
@@ -452,3 +450,91 @@ null value $u_o$.
 
 With categorical data the difference in their numerical values is
 usually too small to break the equivalence.
+
+# Week 7
+
+## T-Test Math Notation
+
+![](Images\ttest_equ.jpg)
+
+### Standard Deviation
+
+![](Images\sd_formula.webp)
+
+### Between Groups
+
+![](Images\tdiff_test.png)
+
+### Confidence Interval
+
+Need to know the margin of error, which you should $\pm$ from your best
+guess.
+
+![](Images\ME_t_test.png)
+
+# Week 9
+
+## ANOVA
+
+ANOVA is an extension from difference in means, where the test statistic
+is the variability (variance) within group vs the variability (variance)
+across groups.
+
+### Hypothesis Notation:
+
+Example text comes from the plants dataset in R.
+
+$$
+H_o: \mu_c = \mu_{trt1} = \mu_{trt2}
+$$
+
+**In words:**
+
+-   $H_o:$ The population mean weight of plants across the three groups
+    are equal.
+
+-   $H_a:$ At least one population mean plant weight is different across
+    the three groups.
+
+Note: It is uncommon to write our the alternative hypothesis in
+notation, but the null is generally written in proper notation.
+
+### Assumptions
+
+**Independence**
+
+-   Between groups
+
+-   Across groups
+
+**Normality**
+
+-   Check using quantiles and a Normal q-q plot to determine if the data
+    is normally distributed.
+
+    -   We plot the values from our data set against what woe would
+        expect the values to look like if they were normally distributed
+
+    -   If the dots roughly follow a straight line, we have evidence of
+        normality.
+
+![](\Images\normal_qq.png)
+
+![](\Images\right_qq.png)
+
+**Equal variance**
+
+General rule: Is the largest sample standard deviation more than twice the smallest sample standard deviation?
+
+### The Math Behind ANOVA
+
+$$
+F = \frac{MS_{Between}}{MS_{Within}} \\
+F = \frac{\frac{SS_{Between}}{k-1}}{\frac{SS_{Within}}{N-k}} \\
+SS_{Between} = \sum^k_{i=1}n_i(\bar{X}_i-\bar{X}_{grand})^2 \\
+SS_{Within} = \sum^k_{i=1}\sum^{n_i}_{j=1}(X_{ij}-\bar{X}_i)^2
+$$
+
+-   SS means sum of squares 
+
+-   F is our statistics 
