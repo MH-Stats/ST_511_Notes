@@ -1385,8 +1385,6 @@ You need to check for both models:
 -   Equal Variance
 
 -   Nested models
-
-    - Your reduceded model has to be inside your full model, otherwise it will create negative values that will impact the ability to calculate your test statistic
     
 ##### Linearity and Equal Variance
 
@@ -1437,3 +1435,95 @@ peng_clone1 |>
   theme_minimal()
 ```
 
+Since we have a large sample size we are more robust to deviations of normality, so we can be robust to the outlier seen on the left tail of our plot.
+
+```{r}
+plot(peng_flm)
+```
+
+##### Nested Models
+
+Your reduced model has to be inside your full model, otherwise it will create negative values that will impact the ability to calculate your test statistic. 
+
+#### R-Code for Anova for Comparisons
+
+```{r}
+model_reduced <- lm(flipper_length_mm ~ bill_length_mm, data = penguins)
+
+model_full <- lm(flipper_length_mm ~ bill_length_mm + species, data = penguins)
+
+anova(model_reduced, model_full)
+```
+
+The DF column difference in residual degrees of freedom between the two adjacent models being compared. This is the numerator degrees of freedom for the F-test. The denominator degrees of freedom is the Residual degrees of freedom from the full model (338).
+
+The 26923 is the reduction in the Residual Sum of Squares (RSS) from the reduced to full model.
+
+Our p-value comes from a F-distribution with 2 and 338 degrees of freedom.
+
+##### Interpretation
+
+Since our p-value is really small we can reject the null hypothesis, and state that the amount of variation in flipper length explained by the addition of species is statistically significant. 
+
+#### Additive vs Interaction Model
+
+Additive:
+
+$$
+fl = \beta_0 + \beta_1 * bill + \beta_2 * Chin + \beta_3  * Gentoo + \epsilon
+$$
+
+Interaction:
+
+$$
+fl = \beta_0 + \beta_1 * bill + \beta_2 * Chin + \beta_3  * Gentoo + \beta_4*bill*Chin + \beta_5 * bill * Gentoo + \epsilon
+$$
+
+Since we previously plotted our residuals for our additive model lets see what it would look like on our interaction model
+
+```{r}
+# Fitting a linear model
+peng_flm <- lm(flipper_length_mm ~ bill_length_mm * species, data = penguins_clean) 
+
+# Creating clone df
+peng_clone1 <- penguins_clean
+
+# Adding fitted observations to df
+peng_clone1$fit  <- fitted(peng_flm)
+
+# Creating residual overlay plot
+ggplot(peng_clone1, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
+  geom_segment( 
+    aes(xend = bill_length_mm, yend = fit), # draws a line from observed points to fitted value
+    color = "black",
+    linetype = 'dotted',
+    alpha = 0.5
+  ) +
+  geom_point(alpha = 0.6) +
+  geom_line(aes(y = fit), size = 1) + # y = fit is the values created from the linear model
+  labs(
+    title = "Residuals for the Full Interaction Model", 
+    subtitle = "Fitted Lines: Flipper Length ~ Bill Length * Species (Different Slopes and Intercepts",
+    y = "Bill Length (mm)", 
+    x = "Flipper Length (mm)"
+  ) +
+  theme_minimal()
+```
+
+##### Anova Comparison
+
+```{r}
+model_additive <- lm(flipper_length_mm ~ bill_length_mm + species, data = penguins_clean)
+
+model_interaction <- lm(flipper_length_mm ~ bill_length_mm * species, data = penguins_clean)
+
+anova(model_additive, model_interaction)
+```
+
+##### Hypothesis Notation
+
+$H_0: \beta_4 = \beta_5 = 0$
+
+$H_A:$ At least one of $\beta_4 \ \text{or} \ \beta_5 \ne 0$
+
+At a significance level of $\alpha = 0.05$ and a p-value of 0.0523 we fail to reject the null hypothesis.  Due to the closeness to the $\alpha$ level we can state there is weak evidence that the addition of interaction effect between bill length and species better explains the variation in flipper length over our Additive model. 
