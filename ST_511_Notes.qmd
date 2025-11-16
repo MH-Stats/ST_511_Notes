@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-# Week 1
+# #Week 1
 
 ## Git/Github
 
@@ -472,7 +472,7 @@ guess.
 
 ![](Images\ME_t_test.png)
 
-# Week 9
+# Week 9-10
 
 ## ANOVA
 
@@ -480,7 +480,7 @@ ANOVA is an extension from difference in means, where the test statistic
 is the variability (variance) within group vs the variability (variance)
 across groups.
 
-### Hypothesis Notation:
+#### Hypothesis Notation:
 
 Example text comes from the plants dataset in R.
 
@@ -499,7 +499,7 @@ $$
 Note: It is uncommon to write our the alternative hypothesis in
 notation, but the null is generally written in proper notation.
 
-### Assumptions
+#### Assumptions
 
 **Independence**
 
@@ -524,9 +524,10 @@ notation, but the null is generally written in proper notation.
 
 **Equal variance**
 
-General rule: Is the largest sample standard deviation more than twice the smallest sample standard deviation?
+General rule: Is the largest sample standard deviation more than twice
+the smallest sample standard deviation?
 
-### The Math Behind ANOVA
+#### The Math Behind ANOVA
 
 $$
 F = \frac{MS_{Between}}{MS_{Within}} \\
@@ -535,6 +536,904 @@ SS_{Between} = \sum^k_{i=1}n_i(\bar{X}_i-\bar{X}_{grand})^2 \\
 SS_{Within} = \sum^k_{i=1}\sum^{n_i}_{j=1}(X_{ij}-\bar{X}_i)^2
 $$
 
--   SS means sum of squares 
+-   SS means sum of squares
 
--   F is our statistics 
+-   F is our statistics
+
+##### Definitions
+
+The Sum of Squares (SS) is a measure of total variability (between or
+within)
+
+The Mean Squares (MS) is an estimate ($s^2$) of the population variance
+($\sigma^2$), represented as,
+
+$$
+s^2=\frac{\sum(x_i-\bar{x})^2}{n-1}
+$$
+
+-   This is the $\frac{SS}{df}$
+
+#### F Distribution
+
+A continuous, positively skewed probability distribution, characterized
+by two degrees of freedom (numerator and denominator) that determine its
+shape.
+
+-   Always one tail no matter what
+
+##### Degrees of Freedom
+
+Degrees of Freedom (df) is the number of independent pieces of
+information used to calculate the statistic
+
+When we estimate the population (grand) mean, there are $k-1$
+independent pieces of information
+
+When we estimate the population means within each group, there are
+$n - k$ independent pieces of information
+
+##### F-Statistic
+
+The whole goal of Anova is to compare the variability between groups vs
+the variability within groups.
+
+### Tukeys HSD
+
+The main idea of the hsd is to compute the honestly significant
+difference (hsd) between all pairwise comparisons
+
+#### Type 1 Error
+
+$\alpha$ is our significance level, and our Type I error rate.
+
+-   A **Type I error** is the risk rejecting the null hypothesis when
+    the null hypothesis is actually true.
+    -   As an example when $\alpha=0.05$ that means you have a 5% risk
+        of rejecting the null hypothesis when it is actually true.
+
+#### Family-Wise Error Rate
+
+Family-wise error rate (FWER) is the probability/risk of making one or
+more Type I error across all tests in a family of comparisons. It is a
+way to quantify the risk of making Type I errors during multiple
+hypothesis testing.
+
+The formula is,
+
+$$
+FWER = 1 - (1-\alpha)^m
+$$
+
+Where $m$ is the number of comparisons.
+
+$$
+\text{k choose 2} = \frac{k(k-1)}{2}
+$$
+
+#### Pairwise Comparisons
+
+Commonly we report confidence intervals to estimate which means are
+actually different (also reports p-values)
+
+Tukey's HSD can be represented as,
+
+$$
+\bar{x}_1-\bar{x}_2 \pm q^**\sqrt{MSE*\frac{1}{n_j}+\frac{1}{n_{j}^*}}
+$$
+
+Where:
+
+-   $q^*$ is a value from the studentized range distribution
+
+-   (MSE) refers to the average of the squared differences between
+    individual data points within each group and their respective group
+    mean, divided by the degrees of freedom. Also know as the estimated
+    variance by pooling all the groups.
+
+$$
+MSE = \sum^k_{i=1}\frac{(n_i-1)s^2_i}{N-k}
+$$
+
+##### How to find $q^*$
+
+Can be found using the `qtukey()` function
+
+```{r}
+qtukey(p = 0.95, nmeans = 3, df = 27)
+```
+
+#### Test-statistic
+
+$$
+Q = \frac{\bar{x}_i-\bar{x}_j}{\sqrt{\frac{MSE}{2}(\frac{1}{n_i}+\frac{1}{n_j})}}
+$$
+
+#### Summary
+
+Tukey’s Honest Significant Difference (HSD) test is a post hoc test
+commonly used to assess the significance of differences between pairs of
+group means. Tukey HSD is often a follow up to one-way ANOVA, when the
+F-test has revealed the existence of a significant difference between
+some of the tested groups.
+
+### Bonferroni
+
+Tukey's HSD is best for making all possible pairwise comparisons, while
+**Bonferroni Correction** is more general and suited for a small number
+of pre-planned comparisons.
+
+You conduct individual t-tests, but divide by the original significance
+level $\alpha$ by the number of tests being performed ($m$)
+
+# Week 11
+
+## Chi-Square Test
+
+The big idea is to compare expected counts (the assumed counts under the
+null hypothesis) with the observed counts (your results). This is used
+to calculate the test statistic.
+
+#### Hypothesis Notation
+
+Ho: Sex and species of penguins are independent
+
+Ha: sex and species of penguins are not independent
+
+Remember for the null this means species has no impact **OR** species is
+completely independent from sex. While for the alternative this means
+species has some impact on sex **OR** species is not independent from
+sex.
+
+##### Assumptions
+
+-   Independence
+
+![](Images\chi_ind.png)
+
+-   Expected Frequencies
+
+    -   Expected cell count should be \> 5
+    -   If any of the expected values are low, the p-values generated by
+        the test start to lose reliability. Should check this in our
+        table.
+
+#### Chi-Square Distribution
+
+Binomial Approximation: The observed Counts in a contingency table
+follow a binomial distribution
+
+The Central limit theorem tells us that when the number of trials ($n$)
+is large enough, the binomial distribution can be reasonably
+approximated by the normal distribution
+
+The Chi-Square test relies on the assumption that the sampling
+distribution of the observed frequencies (counts) is close enough to a
+normal distribution for the $X^2$ statistic to accurately follow the
+theoretical Chi-Square distribution
+
+When Expected Counts are high ($\geq5$): The underlying discrete
+(integer) count data behaves smoothly, like a continuous bell-shapped
+(Normal) curve
+
+When Expected Counts are low ($<5$): The data distribution remains
+highly skewed and chunky (discrete). It looks nothing like the smooth
+Normal distribution.
+
+If our sample size assumption (expected counts) is not met, the test
+statistic doesn’t actually follow the distribution it’s being compared
+to…. so we can’t trust the results.
+
+#### Expected Counts
+
+To calculate the expected count for the $i^{th}$ row and $j^{th}$
+column,
+
+$$
+\text{Expected Count}_{\text{row i, col j}} = \frac{\text{(row i total)}*\text{(col j total)}}{\text{table total}}
+$$
+
+![](Images\expected_counts.png)
+
+![](Images\expected2.png)
+
+#### Test Statistic
+
+![](\Images\chisq.png)
+
+-   $r$ is the number of groups for one variable (rows)
+
+-   $c$ is the number of groups for the second variable (columns)
+
+-   The test statistic cannot be negative
+
+##### p-value
+
+To calculate the p-value you can use `chisq_test(data, var1 ~ var2)`
+
+##### Notation
+
+The probability of observing our statistic, or something larger given
+the null hypothesis is true.
+
+-   $P(\chi^2 \geq X^2) = \text{p-value}$
+
+    -   $\chi^2$ = map of possible outcomes on the chi-square
+        distribution (random variable because it is generated from a
+        random process)
+
+    -   $X^2$ = your statistic
+
+#### Important Notes
+
+-   The shape of the Chi-Square distribution curve depends on the
+    degrees of freedom
+
+-   The chi-square distribution is skewed to the right, and the
+    chi-square test is always right-tailed
+
+-   A chi-square test cannot have a directional hypothesis. A chi-square
+    value can only indicate that a relationship exists between two
+    variables, not what the relationship is.
+
+#### Chi-Square Difference in Proportions
+
+![](Images\chi_dp.png)
+
+![](Images\show_it.png)
+
+**Z-Statistic**
+
+$$
+Z = \frac{(\hat{p}_1-\hat{p}_2)}{SE_{pooled}} = \frac{(0.5385 -0.3684)}{0.1786} = \frac{0.1701}{0.1786} \approx 0.952 
+$$
+
+$$
+.952^2 = .906
+$$
+
+```{r}
+counts_table <- matrix(c(7,7,6,12), nrow = 2)
+
+prop.test(counts_table, correct = F)
+```
+
+# Week 12-13
+
+## Linear Regression
+
+#### Summary Statistics
+
+Correlation (r):
+
+-   Is bounded between \[-1, 1\]
+
+-   Measures the strength + direction of a linear relationship
+
+-   The correlation value has no units and is not impacted by a linear
+    change in units (e.g. going from inches to centimeters)
+
+![](Images\r_corr.webp)
+
+Slope + intercept (fit a line)
+
+#### Syntax
+
+`cor(x, y)`
+
+```{r}
+library(tidyverse)
+
+airquality |>
+  summarise(corr = cor(Wind, Temp, use = "complete.obs"))
+```
+
+```{r}
+airquality |>
+  ggplot(aes(x = Wind, y = Temp)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = F, formula = 'y ~ x')
+```
+
+#### Residual
+
+The residual of the $i^{th}$ observation $(x_i,y_i)$ is the difference
+of the observed outcome and the outcome we would predict based on the
+model fit:
+
+$$e_i = y_i-\hat{y}_i$$
+
+-   $y_i$ is an observed value.
+
+-   $\hat{y}_i$ is the predicted value based on the line. It is
+    typically found by plugging $x_i$ into the model.
+
+To minimize the residual sum of squares:
+
+$$
+\sum(y_i-\hat{y})^2
+$$
+
+##### Residual Overlay Plot:
+
+```{r}
+# Fitting a linear model
+air_lm <- lm(Wind ~ Temp, data = airquality) 
+
+# Adding fitted and residuals 
+airquality$fit  <- fitted(air_lm)
+airquality$res  <- resid(air_lm)
+
+# Creating residual overlay plot
+ggplot(airquality, aes(Temp, Wind)) +
+  geom_segment(aes(xend = Temp, yend = fit), alpha = 0.6) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = F, formula = y ~ x, color = "purple") +
+  labs(title = "Residuals", y = "Wind", x = "Temp")
+
+```
+
+#### Linear Regression Equation
+
+Population level: $y=\beta_0+\beta_1*x+\epsilon$
+
+Sample: $\hat{y}=\hat{\beta_0}+\hat{\beta_1}*x$
+
+-   $\hat{y}$ (yhat) = predicted value of y
+
+-   $\hat{\beta_0}$ (b) = estimated intercept
+
+-   $\hat{\beta_1}$ (b1) = estimated slope
+
+-   $x$ = explanatory variable
+
+The slope describes the estimated difference in the predicted average
+outcome of $y$ if the predictor variable $x$ happened to be one unit
+larger. The intercept describes the average outcome of $y$ if $x$ = 0
+and the linear model is valid all the way to $x$ = 0 (values of $x$ = 0
+are not observed or relevant in many applications)
+
+![](Images\lsq_line.png)
+
+##### Categorical Predictors
+
+The estimated intercept is the value of the outcome variable for the
+first category (i.e., the category corresponding to an indicator value
+of 0). The estimated slope is the average change in the outcome variable
+between the two categories.
+
+##### Coefficient of Determination
+
+$R^2$ is also called the coefficient of determination, which is the
+proportion of variability in the outcome variable explained by the
+model.
+
+Since $r$ is always between -1 and 1, $R^2$ will always be between 0
+and 1. It measures the proportion of variation in the outcome variable,
+$y$, that can be explained by the linear model with predictor $x$.
+
+##### Sums of Squares
+
+![](Images\sumofsquares.png)
+
+#### R-Code
+
+```{r, echo=FALSE}
+library(tidymodels)
+air_model <- lm(Wind ~ Temp, data = airquality)
+
+tidy(air_model)
+```
+
+#### Why Mean Response
+
+The phrase expected value is a synonym for mean value in the long run
+(meaning for meany repeats or a large sample size)
+
+![](Images\slr_image.png)
+
+#### Null and Alternative Hypothesis
+
+$H_o:\beta_1=0$
+
+$H_a:\beta_1\neq0$
+
+#### Assumptions
+
+##### Independence
+
+Most important thing is how you sample the data, with the fundamental
+idea being that the population you randomly sampled from had an equal
+chance for selection, and that the observations are independent from one
+another.
+
+To check you will want to plot the residuals:
+
+```{r}
+plot(airquality$Temp, airquality$res,
+     ylab = "Residuals",
+     xlab = "Temperature",
+     main = "Wind Speed Residuals"
+     )
+abline(0, 0)
+```
+
+The residuals should be randomly and symmetrically distributed around
+zero under all conditions, and in particular there should be no
+correlation between consecutive errors no matter how the rows are
+sorted, as long as it is on some criterion that does not involve the
+dependent variable. If this is not true, it could be due to a violation
+of the linearity assumption or due to bias that is explainable by
+omitted variables (say, interaction terms or dummies for identifiable
+conditions). [Source](https://people.duke.edu/~rnau/testing.htm)
+
+##### Linearity
+
+The first step is to look at a scatter plot of the data, to see if there
+is a clear violation of linearity. If you don't notice a clear
+polynomial or logistic regression, that is a good sign of a linear
+relationship.
+
+Non-linearity is most evident in a plot of **residual vs. fitted
+(predicted) values**. The points should be symmetrically distributed
+around a horizontal line, with a roughly constant variance. The points
+should appear random rather than following a specific pattern. What you
+are checking for is equal variance.
+
+![](Images\res_fitted.png)
+
+A violation of linearity would appear to show a clear bowed pattern:
+
+![](Images\violation.png)
+
+##### Equal Variance
+
+Violations of homoscedasticity (which are called "heteroscedasticity")
+make it difficult to gauge the true standard deviation of the forecast
+errors, usually resulting in confidence intervals that are too wide or
+too narrow, and creates inaccurate p-values. Heteroscedasticity may also
+have the effect of giving too much weight to a small subset of the data
+(namely the subset where the error variance was largest) when estimating
+coefficients.
+
+You do not want to see the residual plot showing unequal spread of data,
+if there is a clear pattern as in the plot below, that is a good sign
+the data does not have equal variance.
+
+![](Images\homosce.png)
+
+##### Linearity and Equal Variance Summary
+
+![](Images\resvfit.png)
+
+##### Normality
+
+We think about our sample size and also look at Normal Q-Q plots of our
+residuals. The residuals should roughly follow the straight line mapped
+by the plot, deviations would indicate the data may not meet the
+normality assumption. If the sample size is large the CLT would account
+for minor deviations, but if your sample size is small minor deviations
+should be carefully evaluated.
+
+```{r}
+airquality |>
+  ggplot(aes(sample=res)) +
+  stat_qq() +
+  stat_qq_line(color = "red") +
+  labs(
+    title = "Normal Q-Q Plot of Residuals",
+    subtitle = "Model: Wind ~ Temp (Airquality Data",
+    x = "Theoretical Quantiles (Standard Normal)",
+    y = "Sample Quantiles (Residuals)"
+  )
+  
+```
+
+A faster way to make plots for your linear regression is to just use the
+built in `plot()` function on your model:
+
+```{r}
+plot(air_lm)
+```
+
+#### Test Statistic
+
+$$
+t = \frac{\hat{\beta_1}-\beta_{null}}{SE(\hat{\beta_1})}
+$$
+
+##### Standard Error
+
+![](Images\se_lin.png)
+
+#### Confidence Intervals and Predictions
+
+How to predict true mean Wind (mph) when the Temp is 17 degrees? Note
+that a Temp of 17 is outside the bounds of our data, meaning we are
+extrapolating.
+
+##### Response
+
+$$
+\hat{\mu_y} \pm t^**SE_{\hat{\mu_y}}
+$$
+
+##### Standard Errors
+
+$X_{given}$ = What we set X equal to
+
+![](Images\xgiven.png)
+
+The term $\frac{1}{n}$ accounts for the general uncertainty in
+estimating the intercept.
+
+The term $\hat{\sigma}^2$ in the outer square root represents the
+uncertainty around our prediction.
+
+The uncertainty introduced by the slope ($\hat{\beta}_1$) is accounted
+for by,
+
+$$
+\frac{(X_{given}-\bar{X})^2}{\sum^n_{i=1}(X_i-\bar{X})^2}
+$$
+
+##### R-Code
+
+```{r}
+model1 <- lm(Wind ~ Temp, data = airquality)
+
+new_temp_data <- tibble(Temp = 17)
+
+predict(
+  model1, 
+  newdata = new_temp_data, 
+  interval = "confidence", 
+  level = 0.95
+)
+```
+
+## Multiple Linear Regression
+
+-   Has a quantitative response (Y)
+
+-   Has \> 1 explanatory variable
+
+-   The values of the coefficients change when we add more variables
+    into our model
+
+### Additive Model
+
+The relationship between x and y does not depend on z
+
+```{r}
+library(palmerpenguins)
+
+penguins_clean <- penguins |>
+  filter(bill_length_mm != is.na(bill_length_mm),
+         flipper_length_mm != is.na(flipper_length_mm))
+
+# Creating additive model
+add_model <- lm(flipper_length_mm ~ bill_length_mm + species, data = penguins_clean)
+
+# Grabbing predictions
+penguins_clean$pred_flipper <- predict(add_model)
+
+# Creating new data to assign full x scale to
+x_scale_df <- expand.grid(
+  bill_length_mm = seq(
+    from = min(penguins_clean$bill_length_mm),
+    to = max(penguins_clean$bill_length_mm),
+    by = .1, # Sets the scale increments
+  ),
+  species = unique(penguins_clean$species)
+)
+                            
+                          
+
+# adding new prediction lines
+x_scale_df$predline <- predict(add_model, x_scale_df)
+
+ggplot(data = penguins_clean, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
+  geom_point(alpha = 0.5) +
+  geom_line(data = x_scale_df, aes(y = predline), size = 1) +
+  labs(
+    title = "Additive Model",
+    subtitle = "Model: Flipper Length ~ Bill Length + Species (Same Slope, Different Intercepts)",
+    x = "Bill Length (mm)",
+    y = "Flipper Length (mm)"
+  ) +
+  theme_minimal()
+```
+
+##### Model Output
+
+```{r}
+tidy(add_model)
+```
+
+#### General Formula
+
+$$
+\hat{Y} = \hat{\beta_0} + \hat{\beta}_1X_1 + \hat{\beta}_2X_2 + \text{...} + + \hat{\beta}_kX_k
+$$
+
+Our formula in our example would be,
+
+$$
+\hat{fl} = 147.951 + 1.083 * \text{bl} - 5.004 * \text{chin} + 17.799 * \text{gentoo}
+$$
+
+$$
+I_{Gentoo} \{\text{1 when Gentoo, 0 for all else}
+$$
+
+$$
+I_{Chin} \{\text{1 when Chin, 0 for all else}
+$$
+
+-   147.95 represents the intercept for Adelie penguins which is our
+    baseline reference, the formula just looking at the Adelie penguins
+    would look like,
+
+$$
+\hat{fl}_{Adelie} = 147.951 + 1.083 * \text{bill}
+$$
+
+-   To represent just the formula for Chinstrap penguins we could use,
+
+$$
+\hat{fl}_{Chin} = 147.951  - 5.004 + 1.083 * \text{bill}
+$$
+
+#### Interpretations
+
+Holding species constant, for a 1mm increase in bill length, we estimate an average increase in flipper length of 1.083mm.
+
+Holding bill length constant, we estimate the mean flipper length of Gentoo penguins to be 17.799mm larger than the Adelie penguins. 
+
+### Interaction Model
+
+The relationship between x and y depends on the value of z. 
+
+```{r}
+inter_model <- lm(flipper_length_mm ~ bill_length_mm * species, data = penguins_clean)
+
+penguins_clean |>
+  ggplot(
+    aes(x = bill_length_mm, y = flipper_length_mm, color = species)
+  ) + 
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = F, formula = "y ~ x") +
+  labs(
+    title = "Interaction Model",
+    subtitle = "Flipper Length ~ Bill Length * Species (Non-Parallel Slopes)",
+    x = "Bill Length (mm)",
+    y = "Flipper Length (mm)"
+  ) +
+  theme_minimal()
+```
+
+#### Output
+
+```{r}
+tidy(inter_model)
+```
+
+How would we interpret something like the 0.207 value? 
+
+For a 1mm increase in bill length, we estimate an average increase in flipper length of 0.207mm more for Chinstrap than Adelie penguins, holding all other variables constant. 
+
+#### Formula
+
+$$
+\hat{Y} = \hat{\beta_0} + \hat{\beta}_1X_1 + \hat{\beta}_2X_2 + \hat{\beta}_3(X_1X_2)
+$$
+
+For our example the formula would look like,
+
+$$
+\hat{fl} = 158.92  + 0.80 *bill - 12.29 * Chin - 7.83 * Gentoo + .207 * bill * Chin + .591 * bill * Gen 
+$$
+
+The line for just Adelie penguins would look like,
+
+$$
+\hat{fl}_{Adelie} = 159 + .800 * bill
+$$
+
+The line for just Chinstrap penguins would look like,
+
+$$
+\hat{fl}_{Chin} = 159 - 12.29 + .800 * bill + .207 * bill
+$$
+-   $159 - 12.29$ is the change to our intercept in the model while $bill(.800 + .207)$ would represent our slope
+
+#### Assumptions
+
+We use the same assumptions as the assumptions we used for singular linear regression models, but add another assumption for multicollinearity. 
+
+Multicollinearity happens when the predictor variables are correlated within themselves. When the predictor variables themselves are correlated, the coefficients in a multiple regression model can be difficult to interpret.
+
+##### Multicollinearity Example
+
+This is an example using fake data:
+
+![](Images\multi.png)
+
+![](Images\multi1.png)
+
+The photos show how the variables react in a linear regression model on their own. 
+
+![](Images\multi3.png)
+
+TO check this assumption you can calculate correlation coefficients between all your predictors. You can also calculate variance inflation factors (not covered in course)
+
+### Hypothesis Test for Multiple Linear Regression
+
+To illustrate this lets first look back at our examples for our simple linear regression compared to our additive multiple linear regression. Represented by the formulas,
+
+$$
+fl = \beta_0 + \beta_1 * bill + \epsilon
+$$
+
+$$
+fl = \beta_0 + \beta_1 * bill + \beta_2 * Chin + \beta_3  * Gentoo + \epsilon
+$$
+
+The question is to try and determine if the multiple linear regression model is worth it. One thing to remember is that you are never going to get worse at predicting your response variable by adding extra terms, you are merely checking if adding those extra terms are worth it.
+
+#### Notation
+
+$H_0: \beta_2 = \beta_3 = 0$
+
+$H_a: \text{At least one of the betas differ from zero}$
+
+The idea is to see if the reduction in unexplained variance (the reduction in Residual Sum of Squares, RSS) when moving from $Model_{reduced}$ to $Model_{full}$ is statistically significant. In other words, is species a good predictor to include in our analysis.
+
+#### Test Statistic 
+
+$$
+F = \frac{(RSS_R-RSS_f)/(df_R-df_F)}{MSE_F}
+$$
+
+$df_F = n - k_F -1$: n is our sample size, while k is the number of predictors
+
+$df_R = n - k_R -1$: n is our sample size, while k is the number of predictors 
+
+-   F represents our full model, while R represents our reduced model.
+
+##### Visualization 
+
+We are comparing the Residual Sum of Squares between the two models
+
+Reduced Model:
+
+```{r}
+# Fitting a linear model
+peng_slm <- lm(flipper_length_mm ~ bill_length_mm, data = penguins_clean) 
+
+# Creating clone df
+peng_clone <- penguins_clean
+
+# Adding fitted and residuals 
+peng_clone$fit  <- fitted(peng_slm)
+peng_clone$res  <- resid(peng_slm)
+
+# Creating residual overlay plot
+ggplot(peng_clone, aes(x = bill_length_mm, y = flipper_length_mm)) +
+  geom_segment(
+    aes(xend = bill_length_mm, yend = fit), 
+    color = 'black',
+    linetype = 'dotted',
+    alpha = 0.5
+  ) + 
+  geom_smooth(method = "lm", se = F, formula = y ~ x, color = "purple") +
+  geom_point(color = 'darkorange', alpha = 0.6) +
+  labs(
+    title = "Residual Distances for the Reduced Model", 
+    subtitle = "Model: Flipper Length ~ Bill Length. Vertical lines show model error (residuals)",
+    y = "Bill Length (mm)", 
+    x = "Flipper Length (mm)"
+  ) +
+  theme_minimal()
+```
+Full Model:
+
+```{r}
+# Fitting a linear model
+peng_flm <- lm(flipper_length_mm ~ bill_length_mm + species, data = penguins_clean) 
+
+# Creating clone df
+peng_clone1 <- penguins_clean
+
+# Adding fitted observations to df
+peng_clone1$fit  <- fitted(peng_flm)
+
+# Creating residual overlay plot
+ggplot(peng_clone1, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
+  geom_segment( 
+    aes(xend = bill_length_mm, yend = fit), # draws a line from observed points to fitted value
+    color = "black",
+    linetype = 'dotted',
+    alpha = 0.5
+  ) +
+  geom_point(alpha = 0.6) +
+  geom_line(aes(y = fit), size = 1) + # y = fit is the values created from the linear model
+  labs(
+    title = "Residual Distances for the Full Additive Model (Forced Parallel Lines)", 
+    subtitle = "Model: Flipper Length ~ Bill Length + Species",
+    y = "Bill Length (mm)", 
+    x = "Flipper Length (mm)"
+  ) +
+  theme_minimal()
+```
+
+You can compare the length of the distance between residuals and how that compares between a singular line versus multiple lines.
+
+#### Assumptions
+
+You need to check for both models:
+
+-   Independence
+  
+    - Same as with simple linear regression you just want to make sure it is reasonable your data is independent. You will want a simple random sample
+
+-   Linearity 
+
+-   Normality of Residuals
+
+-   Equal Variance
+
+-   Nested models
+
+    - Your reduceded model has to be inside your full model, otherwise it will create negative values that will impact the ability to calculate your test statistic
+    
+##### Linearity and Equal Variance
+
+```{r}
+# Adding residuals to df
+peng_clone1$res <- resid(peng_flm) 
+
+# residual plot vs fitted
+ggplot(data = peng_clone1, aes(x = fit, y = res)) +
+  geom_point(alpha = 0.6) +
+  geom_hline(
+    yintercept = 0,
+    color = 'red',
+    linetype = 'dashed',
+    size = 1
+  ) +
+  geom_smooth(
+    method = 'loess',
+    se = F,
+    color = 'blue',
+    size = 1
+  ) +
+  labs(
+    title = "Residuals vs Fitted Plot",
+    subtitle = "Model: Flipper Length ~ Species + Bill Length",
+    x = "Fitted Values (Predicted Flipper Length)",
+    y = "Residuals (Error)"
+  ) +
+  theme_minimal()
+  
+```
+
+Based on this plot we can see that the residuals are fairly randomly distributed around zero indicating the data meets the linearity assumption. For equal variance we want to see the data is spread across the plot without creating an imbalance between any specific part along the x-axis. Since the residuals are not fanning out or funneling into to any specific point, we can state the model meets the assumption of equal variance.
+
+##### Normality 
+
+```{r}
+peng_clone1 |>
+  ggplot(aes(sample = res)) +
+  stat_qq(color = 'darkgreen') +
+  stat_qq_line(color = 'black', size = 1) +
+  labs(
+    title = "Normal Q-Q Plot of Residuals for Flipper Length Model",
+    subtitle = "Model: Flipper Length ~ Species + Bill Length",
+    x = "Theoretical Quantiles (Normal Distribution)",
+    y = "Sample Quantiles (Model Residuals)"
+  ) +
+  theme_minimal()
+```
+
