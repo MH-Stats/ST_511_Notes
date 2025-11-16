@@ -2,6 +2,8 @@
 title: "ST 511 Notes"
 format: html
 editor: visual
+editor_options:
+  chunk_output_type: inline
 ---
 
 # #Week 1
