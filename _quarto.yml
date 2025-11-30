@@ -4,6 +4,11 @@ project:
   
 format: 
   html:
+    theme:
+      light: yeti
+      dark: darkly
     toc: true
     toc-location: left
+    toc-floating: true
     toc-depth: 3
+    page-layout: article
