@@ -8,7 +8,7 @@ editor_options:
   chunk_output_type: inline
 ---
 
-# #Week 1
+# Week 1
 
 ## Git/Github
 
