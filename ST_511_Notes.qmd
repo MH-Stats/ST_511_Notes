@@ -1,6 +1,8 @@
 ---
 title: "ST 511 Notes"
-format: html
+format:
+  html: 
+    toc: true
 editor: visual
 editor_options:
   chunk_output_type: inline
@@ -1801,4 +1803,4 @@ $$
 \hat{p} \pm ME
 $$
 
-$ME = t^* * SE(\hat{p})$ 
+$ME = t^* * SE(\hat{p})$
