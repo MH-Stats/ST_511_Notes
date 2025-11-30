@@ -1189,13 +1189,15 @@ $$
 
 #### Interpretations
 
-Holding species constant, for a 1mm increase in bill length, we estimate an average increase in flipper length of 1.083mm.
+Holding species constant, for a 1mm increase in bill length, we estimate
+an average increase in flipper length of 1.083mm.
 
-Holding bill length constant, we estimate the mean flipper length of Gentoo penguins to be 17.799mm larger than the Adelie penguins. 
+Holding bill length constant, we estimate the mean flipper length of
+Gentoo penguins to be 17.799mm larger than the Adelie penguins.
 
 ### Interaction Model
 
-The relationship between x and y depends on the value of z. 
+The relationship between x and y depends on the value of z.
 
 ```{r}
 inter_model <- lm(flipper_length_mm ~ bill_length_mm * species, data = penguins_clean)
@@ -1221,9 +1223,11 @@ penguins_clean |>
 tidy(inter_model)
 ```
 
-How would we interpret something like the 0.207 value? 
+How would we interpret something like the 0.207 value?
 
-For a 1mm increase in bill length, we estimate an average increase in flipper length of 0.207mm more for Chinstrap than Adelie penguins, holding all other variables constant. 
+For a 1mm increase in bill length, we estimate an average increase in
+flipper length of 0.207mm more for Chinstrap than Adelie penguins,
+holding all other variables constant.
 
 #### Formula
 
@@ -1247,14 +1251,19 @@ The line for just Chinstrap penguins would look like,
 
 $$
 \hat{fl}_{Chin} = 159 - 12.29 + .800 * bill + .207 * bill
-$$
--   $159 - 12.29$ is the change to our intercept in the model while $bill(.800 + .207)$ would represent our slope
+$$ - $159 - 12.29$ is the change to our intercept in the model while
+$bill(.800 + .207)$ would represent our slope
 
 #### Assumptions
 
-We use the same assumptions as the assumptions we used for singular linear regression models, but add another assumption for multicollinearity. 
+We use the same assumptions as the assumptions we used for singular
+linear regression models, but add another assumption for
+multicollinearity.
 
-Multicollinearity happens when the predictor variables are correlated within themselves. When the predictor variables themselves are correlated, the coefficients in a multiple regression model can be difficult to interpret.
+Multicollinearity happens when the predictor variables are correlated
+within themselves. When the predictor variables themselves are
+correlated, the coefficients in a multiple regression model can be
+difficult to interpret.
 
 ##### Multicollinearity Example
 
@@ -1264,15 +1273,20 @@ This is an example using fake data:
 
 ![](Images\multi1.png)
 
-The photos show how the variables react in a linear regression model on their own. 
+The photos show how the variables react in a linear regression model on
+their own.
 
 ![](Images\multi3.png)
 
-TO check this assumption you can calculate correlation coefficients between all your predictors. You can also calculate variance inflation factors (not covered in course)
+TO check this assumption you can calculate correlation coefficients
+between all your predictors. You can also calculate variance inflation
+factors (not covered in course)
 
 ### Hypothesis Test for Multiple Linear Regression
 
-To illustrate this lets first look back at our examples for our simple linear regression compared to our additive multiple linear regression. Represented by the formulas,
+To illustrate this lets first look back at our examples for our simple
+linear regression compared to our additive multiple linear regression.
+Represented by the formulas,
 
 $$
 fl = \beta_0 + \beta_1 * bill + \epsilon
@@ -1282,7 +1296,10 @@ $$
 fl = \beta_0 + \beta_1 * bill + \beta_2 * Chin + \beta_3  * Gentoo + \epsilon
 $$
 
-The question is to try and determine if the multiple linear regression model is worth it. One thing to remember is that you are never going to get worse at predicting your response variable by adding extra terms, you are merely checking if adding those extra terms are worth it.
+The question is to try and determine if the multiple linear regression
+model is worth it. One thing to remember is that you are never going to
+get worse at predicting your response variable by adding extra terms,
+you are merely checking if adding those extra terms are worth it.
 
 #### Notation
 
@@ -1290,21 +1307,26 @@ $H_0: \beta_2 = \beta_3 = 0$
 
 $H_a: \text{At least one of the betas differ from zero}$
 
-The idea is to see if the reduction in unexplained variance (the reduction in Residual Sum of Squares, RSS) when moving from $Model_{reduced}$ to $Model_{full}$ is statistically significant. In other words, is species a good predictor to include in our analysis.
+The idea is to see if the reduction in unexplained variance (the
+reduction in Residual Sum of Squares, RSS) when moving from
+$Model_{reduced}$ to $Model_{full}$ is statistically significant. In
+other words, is species a good predictor to include in our analysis.
 
-#### Test Statistic 
+#### Test Statistic
 
 $$
 F = \frac{(RSS_R-RSS_f)/(df_R-df_F)}{MSE_F}
 $$
 
-$df_F = n - k_F -1$: n is our sample size, while k is the number of predictors
+$df_F = n - k_F -1$: n is our sample size, while k is the number of
+predictors
 
-$df_R = n - k_R -1$: n is our sample size, while k is the number of predictors 
+$df_R = n - k_R -1$: n is our sample size, while k is the number of
+predictors
 
 -   F represents our full model, while R represents our reduced model.
 
-##### Visualization 
+##### Visualization
 
 We are comparing the Residual Sum of Squares between the two models
 
@@ -1334,11 +1356,12 @@ ggplot(peng_clone, aes(x = bill_length_mm, y = flipper_length_mm)) +
   labs(
     title = "Residual Distances for the Reduced Model", 
     subtitle = "Model: Flipper Length ~ Bill Length. Vertical lines show model error (residuals)",
-    y = "Bill Length (mm)", 
-    x = "Flipper Length (mm)"
+    x = "Bill Length (mm)", 
+    y = "Flipper Length (mm)"
   ) +
   theme_minimal()
 ```
+
 Full Model:
 
 ```{r}
@@ -1364,30 +1387,33 @@ ggplot(peng_clone1, aes(x = bill_length_mm, y = flipper_length_mm, color = speci
   labs(
     title = "Residual Distances for the Full Additive Model (Forced Parallel Lines)", 
     subtitle = "Model: Flipper Length ~ Bill Length + Species",
-    y = "Bill Length (mm)", 
-    x = "Flipper Length (mm)"
+    x = "Bill Length (mm)", 
+    y = "Flipper Length (mm)"
   ) +
   theme_minimal()
 ```
 
-You can compare the length of the distance between residuals and how that compares between a singular line versus multiple lines.
+You can compare the length of the distance between residuals and how
+that compares between a singular line versus multiple lines.
 
 #### Assumptions
 
 You need to check for both models:
 
 -   Independence
-  
-    - Same as with simple linear regression you just want to make sure it is reasonable your data is independent. You will want a simple random sample
 
--   Linearity 
+    -   Same as with simple linear regression you just want to make sure
+        it is reasonable your data is independent. You will want a
+        simple random sample
+
+-   Linearity
 
 -   Normality of Residuals
 
 -   Equal Variance
 
 -   Nested models
-    
+
 ##### Linearity and Equal Variance
 
 ```{r}
@@ -1419,9 +1445,15 @@ ggplot(data = peng_clone1, aes(x = fit, y = res)) +
   
 ```
 
-Based on this plot we can see that the residuals are fairly randomly distributed around zero indicating the data meets the linearity assumption. For equal variance we want to see the data is spread across the plot without creating an imbalance between any specific part along the x-axis. Since the residuals are not fanning out or funneling into to any specific point, we can state the model meets the assumption of equal variance.
+Based on this plot we can see that the residuals are fairly randomly
+distributed around zero indicating the data meets the linearity
+assumption. For equal variance we want to see the data is spread across
+the plot without creating an imbalance between any specific part along
+the x-axis. Since the residuals are not fanning out or funneling into to
+any specific point, we can state the model meets the assumption of equal
+variance.
 
-##### Normality 
+##### Normality
 
 ```{r}
 peng_clone1 |>
@@ -1437,7 +1469,9 @@ peng_clone1 |>
   theme_minimal()
 ```
 
-Since we have a large sample size we are more robust to deviations of normality, so we can be robust to the outlier seen on the left tail of our plot.
+Since we have a large sample size we are more robust to deviations of
+normality, so we can be robust to the outlier seen on the left tail of
+our plot.
 
 ```{r}
 plot(peng_flm)
@@ -1445,7 +1479,9 @@ plot(peng_flm)
 
 ##### Nested Models
 
-Your reduced model has to be inside your full model, otherwise it will create negative values that will impact the ability to calculate your test statistic. 
+Your reduced model has to be inside your full model, otherwise it will
+create negative values that will impact the ability to calculate your
+test statistic.
 
 #### R-Code for Anova for Comparisons
 
@@ -1457,15 +1493,22 @@ model_full <- lm(flipper_length_mm ~ bill_length_mm + species, data = penguins)
 anova(model_reduced, model_full)
 ```
 
-The DF column difference in residual degrees of freedom between the two adjacent models being compared. This is the numerator degrees of freedom for the F-test. The denominator degrees of freedom is the Residual degrees of freedom from the full model (338).
+The DF column difference in residual degrees of freedom between the two
+adjacent models being compared. This is the numerator degrees of freedom
+for the F-test. The denominator degrees of freedom is the Residual
+degrees of freedom from the full model (338).
 
-The 26923 is the reduction in the Residual Sum of Squares (RSS) from the reduced to full model.
+The 26923 is the reduction in the Residual Sum of Squares (RSS) from the
+reduced to full model.
 
-Our p-value comes from a F-distribution with 2 and 338 degrees of freedom.
+Our p-value comes from a F-distribution with 2 and 338 degrees of
+freedom.
 
 ##### Interpretation
 
-Since our p-value is really small we can reject the null hypothesis, and state that the amount of variation in flipper length explained by the addition of species is statistically significant. 
+Since our p-value is really small we can reject the null hypothesis, and
+state that the amount of variation in flipper length explained by the
+addition of species is statistically significant.
 
 #### Additive vs Interaction Model
 
@@ -1481,7 +1524,8 @@ $$
 fl = \beta_0 + \beta_1 * bill + \beta_2 * Chin + \beta_3  * Gentoo + \beta_4*bill*Chin + \beta_5 * bill * Gentoo + \epsilon
 $$
 
-Since we previously plotted our residuals for our additive model lets see what it would look like on our interaction model
+Since we previously plotted our residuals for our additive model lets
+see what it would look like on our interaction model
 
 ```{r}
 # Fitting a linear model
@@ -1506,8 +1550,8 @@ ggplot(peng_clone1, aes(x = bill_length_mm, y = flipper_length_mm, color = speci
   labs(
     title = "Residuals for the Full Interaction Model", 
     subtitle = "Fitted Lines: Flipper Length ~ Bill Length * Species (Different Slopes and Intercepts",
-    y = "Bill Length (mm)", 
-    x = "Flipper Length (mm)"
+    x = "Bill Length (mm)", 
+    y = "Flipper Length (mm)"
   ) +
   theme_minimal()
 ```
@@ -1528,4 +1572,233 @@ $H_0: \beta_4 = \beta_5 = 0$
 
 $H_A:$ At least one of $\beta_4 \ \text{or} \ \beta_5 \ne 0$
 
-At a significance level of $\alpha = 0.05$ and a p-value of 0.0523 we fail to reject the null hypothesis.  Due to the closeness to the $\alpha$ level we can state there is weak evidence that the addition of interaction effect between bill length and species better explains the variation in flipper length over our Additive model. 
+At a significance level of $\alpha = 0.05$ and a p-value of 0.0523 we
+fail to reject the null hypothesis. Due to the closeness to the $\alpha$
+level we can state there is weak evidence that the addition of
+interaction effect between bill length and species better explains the
+variation in flipper length over our Additive model.
+
+# Week 14-15
+
+## Statistical Inference vs Sampling Variability
+
+Statistical Inference - taking a sample, and making claims about a
+larger population.
+
+Sampling Variability - the natural variability (error) we expect/see
+from sample to sample.
+
+-   Ex: Let’s assume that Gen-Z has a mean credit score of 680 (μ=680).
+    If you take a random sample of 100 Gen-Z individuals, would we
+    expect the mean credit score of those 100 to be exactly 680?
+
+    -   No, we would not assume it be the exact same mean. Because we
+        know this, we account for sampling variability by using
+        distributions (instead of just point estimates) when trying to
+        make claims about an entire population (Stastical Inference)!
+
+### Scenarios
+
+It’s important for us to know when methods are vs are not appropriate,
+based on variable type. We are going to go through three examples and
+identify each scenario on which methods would be most appropriate to
+answer the research question.
+
+#### Example 1
+
+An ecologist is studying a population of small mammals (e.g., field
+mice) to see if their primary habitat is associated with their dominant
+predator avoidance tactic. The study aims to determine if animals that
+live in dense forest prefer to hide, while those in open fields prefer
+to flee.
+
+![](Images\ex1.png)
+
+-   This would use a Chi-Square Distribution, thus statistical inference
+    is used.
+
+#### Example 2
+
+What was the median student loan debt for all 350 students who graduated
+from the Engineering School in May 2025?
+
+-   This would not need any form of statistical inference as your
+    population of interest would be all 350 students, thus sampling
+    variability does not need to be accounted for.
+
+#### Example 3
+
+A pharmacologist is studying the factors that influence patient Recovery
+Time (in days) following a specific surgical procedure. They are
+analyzing the effects of a new post-operative drug and the patient’s
+age.
+
+The researcher hypothesizes a significant interaction between the two
+factors: the new drug may be highly effective (significantly reducing
+recovery time) for younger patients, but its efficacy might be greatly
+reduced or even disappear for older patients due to metabolic changes.
+
+-   Since this would be looking at a categorical explanatory variable
+    (new drug or no new drug) with an interaction effect using a
+    quantitative explanatory variable (age of patient) analyze a
+    quantitative response variable (recovery time) the best option would
+    be to conduct statistical inference using regression.
+
+## Logistic Regression
+
+Logistic regression is a modeling tool used for a categorical response
+variable. Is very similar to linear regression, but obviously the
+response variable is different.
+
+### The Problem
+
+$(\mu_y) = (\beta_0 + \beta_1X_1 + ...)$
+
+-   The right side of a regression equation, which cant take any value
+    from $-\infty$ to $\infty$.
+
+$(\mu)$: The expected value of the response variable, which is
+restricted to a certain range (e.g. a probability must be between 0 and
+1).
+
+Applying a specific mathematical transformation to the expected outcome
+(or mean) of your model in order to linearly relate it to your predictor
+variables, while restricting the values of your response variable
+accordingly.
+
+For logistic regression, this is the logit-link function:
+
+$(\mu_y \ or \ p)$
+
+$ln(\frac{p}{1-p})$ = log - odds
+
+-   $p$ = probability of success
+
+-   $1-p$ = probability of failure
+
+-   odds = $\frac{p}{1-p}$
+
+$\widehat{ln(\frac{p}{1-p})} = \hat{\beta}_0 +\hat{\beta}_1X_1+...$
+
+### Generalized Linear Model (GLM)
+
+GLM is another term for a type of logistic regression model. Where we
+want to fit an S curve and model the probablity of success as a function
+of explanatory variable(s).
+
+![](Images/log_curve.png)
+
+#### Terms
+
+Bernoulli Distribution:
+
+-   2 outcomes: Success (p) or Failure (1-p)
+
+-   $y_i$ \~ Bern(p)
+
+-   We use $p_i$ for estimated probabilities
+
+#### The model
+
+$$
+\widehat{ln(\frac{p}{1-p})} = \hat{\beta_o} + \hat{\beta_1}X_1 + ...
+$$
+
+-   $ln(\frac{p}{1-p})$ is called the logit link function, and can take
+    on values from $-\infty$ to $\infty$
+
+-   $ln(\frac{p}{1-p})$ represents the log odds of a success
+
+##### Log Odds
+
+$ln(\frac{p}{1-p})$ = natural logarithm of the odds, where the odds are
+the ratio of the probability of an event happening to the probability of
+it not happening.
+
+$ln(\frac{p}{1-p})$ has good modeling properties (ex. unbounded; handles
+extreme values of p well for linearity; restricts p to be between 0 and
+1), but it is hard to interpret. Think of this as our initial model,
+that we will work with to model probabilities (can also model odds).
+
+-   $p$ stands for probability
+
+-   The logit link function restricts p to be between the values \[0,
+    1\]
+
+#### Math
+
+We want to model probabilities. We want to isolate $p$ on the left side
+of the equation,
+
+$$
+\widehat{ln(\frac{p}{1-p})} = \hat{\beta_o} + \hat{\beta_1}X_1 + ...
+$$
+
+To isolate the $p$ we get rid of the $ln$ by,
+
+$$
+e^{ln(\frac{p}{1-p})} = e^{\beta_0+\beta_1X1}
+$$
+
+$$
+\frac{p}{1-p} = e^{\beta_0+\beta_1X1}
+$$
+
+Times each side by $(1-p)$,
+
+$$
+p = e^{\beta_0+\beta_1X1} * (1-p)
+$$
+
+$$
+p = e^{\beta_0+\beta_1X1} - pe^{\beta_0+\beta_1X1}
+$$
+
+Add the new $p*e$ term to the other side,
+
+$$
+p +pe^{\beta_0+\beta_1X1} = e^{\beta_0+\beta_1X1}
+$$
+
+Simplify the equation to just one p,
+
+$$
+p(1+e^{\beta_0+\beta_1X1}) = e^{\beta_0+\beta_1X1}
+$$
+
+Divide both side by the $(1+e)$ term,
+
+$$
+p = \frac{e^{\beta_0+\beta_1X1}}{1+e^{\beta_0+\beta_1X1}} \ \text{where} \ p = [0,1]
+$$
+
+##### Final Model
+
+$$
+\hat{p} = \frac{e^{\hat{\beta_0}+\hat{\beta_1}X1}}{1+e^{\hat{\beta_0}+\hat{\beta_1}X1}} \ \text{where} \ p = [0,1]
+$$
+
+#### Recap
+
+With a categorical response variable, we use the logit link (logistic
+function) to calculate the log odds of a success,
+
+$$
+\widehat{ln(\frac{p}{1-p})} = \hat{\beta_o} + \hat{\beta_1}X_1 + ...
+$$
+
+We can use the same model to estimate the probability of a success,
+
+$$
+\hat{p} = \frac{e^{\hat{\beta_0}+\hat{\beta_1}X1}}{1+e^{\hat{\beta_0}+\hat{\beta_1}X1}} \ \text{where} \ p = [0,1]
+$$
+
+![](Images/pred_probs.png)
+
+#### Prediction Interval
+
+$$
+\hat{p} \pm ME
+$$
+
+$ME = t^* * SE(\hat{p})$ 

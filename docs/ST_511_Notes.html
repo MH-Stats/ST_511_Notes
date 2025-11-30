@@ -1353,8 +1353,8 @@ F = \frac{(RSS_R-RSS_f)/(df_R-df_F)}{MSE_F}
 <span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Residual Distances for the Reduced Model"</span>, </span>
 <span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Model: Flipper Length ~ Bill Length. Vertical lines show model error (residuals)"</span>,</span>
-<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>, </span>
-<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Flipper Length (mm)"</span></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Bill Length (mm)"</span>, </span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Flipper Length (mm)"</span></span>
 <span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1389,8 +1389,8 @@ F = \frac{(RSS_R-RSS_f)/(df_R-df_F)}{MSE_F}
 <span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Residual Distances for the Full Additive Model (Forced Parallel Lines)"</span>, </span>
 <span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Model: Flipper Length ~ Bill Length + Species"</span>,</span>
-<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>, </span>
-<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Flipper Length (mm)"</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Bill Length (mm)"</span>, </span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Flipper Length (mm)"</span></span>
 <span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1580,8 +1580,8 @@ fl = \beta_0 + \beta_1 * bill + \beta_2 * Chin + \beta_3  * Gentoo + \beta_4*bil
 <span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Residuals for the Full Interaction Model"</span>, </span>
 <span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Fitted Lines: Flipper Length ~ Bill Length * Species (Different Slopes and Intercepts"</span>,</span>
-<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>, </span>
-<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Flipper Length (mm)"</span></span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Bill Length (mm)"</span>, </span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Flipper Length (mm)"</span></span>
 <span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1618,9 +1618,163 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><span class="math inline">\(H_0: \beta_4 = \beta_5 = 0\)</span></p>
 <p><span class="math inline">\(H_A:\)</span> At least one of <span class="math inline">\(\beta_4 \ \text{or} \ \beta_5 \ne 0\)</span></p>
 <p>At a significance level of <span class="math inline">\(\alpha = 0.05\)</span> and a p-value of 0.0523 we fail to reject the null hypothesis. Due to the closeness to the <span class="math inline">\(\alpha\)</span> level we can state there is weak evidence that the addition of interaction effect between bill length and species better explains the variation in flipper length over our Additive model.</p>
-
-
 </section>
+</section>
+</section>
+</section>
+</section>
+<section id="week-14-15" class="level1">
+<h1>Week 14-15</h1>
+<section id="statistical-inference-vs-sampling-variability" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-inference-vs-sampling-variability">Statistical Inference vs Sampling Variability</h2>
+<p>Statistical Inference - taking a sample, and making claims about a larger population.</p>
+<p>Sampling Variability - the natural variability (error) we expect/see from sample to sample.</p>
+<ul>
+<li><p>Ex: Let’s assume that Gen-Z has a mean credit score of 680 (μ=680). If you take a random sample of 100 Gen-Z individuals, would we expect the mean credit score of those 100 to be exactly 680?</p>
+<ul>
+<li>No, we would not assume it be the exact same mean. Because we know this, we account for sampling variability by using distributions (instead of just point estimates) when trying to make claims about an entire population (Stastical Inference)!</li>
+</ul></li>
+</ul>
+<section id="scenarios" class="level3">
+<h3 class="anchored" data-anchor-id="scenarios">Scenarios</h3>
+<p>It’s important for us to know when methods are vs are not appropriate, based on variable type. We are going to go through three examples and identify each scenario on which methods would be most appropriate to answer the research question.</p>
+<section id="example-1-1" class="level4">
+<h4 class="anchored" data-anchor-id="example-1-1">Example 1</h4>
+<p>An ecologist is studying a population of small mammals (e.g., field mice) to see if their primary habitat is associated with their dominant predator avoidance tactic. The study aims to determine if animals that live in dense forest prefer to hide, while those in open fields prefer to flee.</p>
+<p><img src="Images\ex1.png" class="img-fluid"></p>
+<ul>
+<li>This would use a Chi-Square Distribution, thus statistical inference is used.</li>
+</ul>
+</section>
+<section id="example-2" class="level4">
+<h4 class="anchored" data-anchor-id="example-2">Example 2</h4>
+<p>What was the median student loan debt for all 350 students who graduated from the Engineering School in May 2025?</p>
+<ul>
+<li>This would not need any form of statistical inference as your population of interest would be all 350 students, thus sampling variability does not need to be accounted for.</li>
+</ul>
+</section>
+<section id="example-3" class="level4">
+<h4 class="anchored" data-anchor-id="example-3">Example 3</h4>
+<p>A pharmacologist is studying the factors that influence patient Recovery Time (in days) following a specific surgical procedure. They are analyzing the effects of a new post-operative drug and the patient’s age.</p>
+<p>The researcher hypothesizes a significant interaction between the two factors: the new drug may be highly effective (significantly reducing recovery time) for younger patients, but its efficacy might be greatly reduced or even disappear for older patients due to metabolic changes.</p>
+<ul>
+<li>Since this would be looking at a categorical explanatory variable (new drug or no new drug) with an interaction effect using a quantitative explanatory variable (age of patient) analyze a quantitative response variable (recovery time) the best option would be to conduct statistical inference using regression.</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
+<p>Logistic regression is a modeling tool used for a categorical response variable. Is very similar to linear regression, but obviously the response variable is different.</p>
+<section id="the-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-problem">The Problem</h3>
+<p><span class="math inline">\((\mu_y) = (\beta_0 + \beta_1X_1 + ...)\)</span></p>
+<ul>
+<li>The right side of a regression equation, which cant take any value from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span>.</li>
+</ul>
+<p><span class="math inline">\((\mu)\)</span>: The expected value of the response variable, which is restricted to a certain range (e.g.&nbsp;a probability must be between 0 and 1).</p>
+<p>Applying a specific mathematical transformation to the expected outcome (or mean) of your model in order to linearly relate it to your predictor variables, while restricting the values of your response variable accordingly.</p>
+<p>For logistic regression, this is the logit-link function:</p>
+<p><span class="math inline">\((\mu_y \ or \ p)\)</span></p>
+<p><span class="math inline">\(ln(\frac{p}{1-p})\)</span> = log - odds</p>
+<ul>
+<li><p><span class="math inline">\(p\)</span> = probability of success</p></li>
+<li><p><span class="math inline">\(1-p\)</span> = probability of failure</p></li>
+<li><p>odds = <span class="math inline">\(\frac{p}{1-p}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(\widehat{ln(\frac{p}{1-p})} = \hat{\beta}_0 +\hat{\beta}_1X_1+...\)</span></p>
+</section>
+<section id="generalized-linear-model-glm" class="level3">
+<h3 class="anchored" data-anchor-id="generalized-linear-model-glm">Generalized Linear Model (GLM)</h3>
+<p>GLM is another term for a type of logistic regression model. Where we want to fit an S curve and model the probablity of success as a function of explanatory variable(s).</p>
+<p><img src="Images/log_curve.png" class="img-fluid"></p>
+<section id="terms" class="level4">
+<h4 class="anchored" data-anchor-id="terms">Terms</h4>
+<p>Bernoulli Distribution:</p>
+<ul>
+<li><p>2 outcomes: Success (p) or Failure (1-p)</p></li>
+<li><p><span class="math inline">\(y_i\)</span> ~ Bern(p)</p></li>
+<li><p>We use <span class="math inline">\(p_i\)</span> for estimated probabilities</p></li>
+</ul>
+</section>
+<section id="the-model" class="level4">
+<h4 class="anchored" data-anchor-id="the-model">The model</h4>
+<p><span class="math display">\[
+\widehat{ln(\frac{p}{1-p})} = \hat{\beta_o} + \hat{\beta_1}X_1 + ...
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(ln(\frac{p}{1-p})\)</span> is called the logit link function, and can take on values from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span></p></li>
+<li><p><span class="math inline">\(ln(\frac{p}{1-p})\)</span> represents the log odds of a success</p></li>
+</ul>
+<section id="log-odds" class="level5">
+<h5 class="anchored" data-anchor-id="log-odds">Log Odds</h5>
+<p><span class="math inline">\(ln(\frac{p}{1-p})\)</span> = natural logarithm of the odds, where the odds are the ratio of the probability of an event happening to the probability of it not happening.</p>
+<p><span class="math inline">\(ln(\frac{p}{1-p})\)</span> has good modeling properties (ex. unbounded; handles extreme values of p well for linearity; restricts p to be between 0 and 1), but it is hard to interpret. Think of this as our initial model, that we will work with to model probabilities (can also model odds).</p>
+<ul>
+<li><p><span class="math inline">\(p\)</span> stands for probability</p></li>
+<li><p>The logit link function restricts p to be between the values [0, 1]</p></li>
+</ul>
+</section>
+</section>
+<section id="math" class="level4">
+<h4 class="anchored" data-anchor-id="math">Math</h4>
+<p>We want to model probabilities. We want to isolate <span class="math inline">\(p\)</span> on the left side of the equation,</p>
+<p><span class="math display">\[
+\widehat{ln(\frac{p}{1-p})} = \hat{\beta_o} + \hat{\beta_1}X_1 + ...
+\]</span></p>
+<p>To isolate the <span class="math inline">\(p\)</span> we get rid of the <span class="math inline">\(ln\)</span> by,</p>
+<p><span class="math display">\[
+e^{ln(\frac{p}{1-p})} = e^{\beta_0+\beta_1X1}
+\]</span></p>
+<p><span class="math display">\[
+\frac{p}{1-p} = e^{\beta_0+\beta_1X1}
+\]</span></p>
+<p>Times each side by <span class="math inline">\((1-p)\)</span>,</p>
+<p><span class="math display">\[
+p = e^{\beta_0+\beta_1X1} * (1-p)
+\]</span></p>
+<p><span class="math display">\[
+p = e^{\beta_0+\beta_1X1} - pe^{\beta_0+\beta_1X1}
+\]</span></p>
+<p>Add the new <span class="math inline">\(p*e\)</span> term to the other side,</p>
+<p><span class="math display">\[
+p +pe^{\beta_0+\beta_1X1} = e^{\beta_0+\beta_1X1}
+\]</span></p>
+<p>Simplify the equation to just one p,</p>
+<p><span class="math display">\[
+p(1+e^{\beta_0+\beta_1X1}) = e^{\beta_0+\beta_1X1}
+\]</span></p>
+<p>Divide both side by the <span class="math inline">\((1+e)\)</span> term,</p>
+<p><span class="math display">\[
+p = \frac{e^{\beta_0+\beta_1X1}}{1+e^{\beta_0+\beta_1X1}} \ \text{where} \ p = [0,1]
+\]</span></p>
+<section id="final-model" class="level5">
+<h5 class="anchored" data-anchor-id="final-model">Final Model</h5>
+<p><span class="math display">\[
+\hat{p} = \frac{e^{\hat{\beta_0}+\hat{\beta_1}X1}}{1+e^{\hat{\beta_0}+\hat{\beta_1}X1}} \ \text{where} \ p = [0,1]
+\]</span></p>
+</section>
+</section>
+<section id="recap" class="level4">
+<h4 class="anchored" data-anchor-id="recap">Recap</h4>
+<p>With a categorical response variable, we use the logit link (logistic function) to calculate the log odds of a success,</p>
+<p><span class="math display">\[
+\widehat{ln(\frac{p}{1-p})} = \hat{\beta_o} + \hat{\beta_1}X_1 + ...
+\]</span></p>
+<p>We can use the same model to estimate the probability of a success,</p>
+<p><span class="math display">\[
+\hat{p} = \frac{e^{\hat{\beta_0}+\hat{\beta_1}X1}}{1+e^{\hat{\beta_0}+\hat{\beta_1}X1}} \ \text{where} \ p = [0,1]
+\]</span></p>
+<p><img src="Images/pred_probs.png" class="img-fluid"></p>
+</section>
+<section id="prediction-interval" class="level4">
+<h4 class="anchored" data-anchor-id="prediction-interval">Prediction Interval</h4>
+<p><span class="math display">\[
+\hat{p} \pm ME
+\]</span></p>
+<p><span class="math inline">\(ME = t^* * SE(\hat{p})\)</span></p>
+
+
 </section>
 </section>
 </section>
